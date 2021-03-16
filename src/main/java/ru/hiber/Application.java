@@ -10,7 +10,6 @@ public class Application {
         System.out.println(productDao.findAll());
         productDao.saveOrUpdate(new Product(1, "Green Apple", 1.2));
         productDao.saveOrUpdate(new Product("Red Apple", 1.5));
-        productDao.deleteById(4);
-
+        //productDao.deleteById(4);
     }
 }
