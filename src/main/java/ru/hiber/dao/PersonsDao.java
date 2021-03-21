@@ -1,7 +1,7 @@
 package ru.hiber.dao;
 
 import org.springframework.stereotype.Repository;
-import ru.hiber.entity.Product;
+import ru.hiber.entity.Person;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceUnit;
 import java.util.List;
 
 @Repository
-public class ProductDao {
+public class PersonsDao {
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
 
@@ -21,12 +21,13 @@ public class ProductDao {
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public List<Product> findAll(){
-        return entityManager.createQuery("select p from Product p", Product.class).getResultList();
+    public List<Person> findAll(){
+        return entityManager.createQuery("select p from Person p", Person.class)
+                .getResultList();
     }
 
-    public Product findById(Integer id){
-        return entityManager.find(Product.class, id);
+    public Person findById(Long id){
+        return entityManager.find(Person.class, id);
     }
 
 }
