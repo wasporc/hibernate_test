@@ -1,6 +1,7 @@
 package ru.hiber.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -9,6 +10,13 @@ public class Product {
     private Integer id;
     private String name;
     private Double price;
+
+    @OneToMany
+    @JoinTable(name = "persons_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "persons_id")
+    )
+    private List<Person> personList;
 
     public Product() {
     }
@@ -24,6 +32,18 @@ public class Product {
         this.price = price;
     }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -31,11 +51,6 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
 
     public Integer getId() {
         return id;
@@ -45,9 +60,6 @@ public class Product {
         return name;
     }
 
-    public double getPrice() {
-        return price;
-    }
 
     @Override
     public String toString() {

@@ -28,6 +28,14 @@ public class Person {
         this.lastName = lastName;
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
     public Long getId() {
         return id;
     }
