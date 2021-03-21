@@ -13,7 +13,7 @@ public class Person {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "persons_product",
         joinColumns = @JoinColumn(name = "persons_id"),
         inverseJoinColumns = @JoinColumn(name = "product_id")

@@ -20,7 +20,8 @@ public class Runner  implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(personsDao.findById(1L).get());
+        personsDao.findById(1L)
+                .ifPresent(person -> System.out.println(person.getProductList()));
         Optional<Product> byId = productDao.findById(1L);
         byId.ifPresent(product -> System.out.println(product.getPersonList()));
     }
