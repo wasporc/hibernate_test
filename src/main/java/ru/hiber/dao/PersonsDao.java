@@ -1,33 +1,43 @@
 package ru.hiber.dao;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.hiber.entity.Person;
+import ru.hiber.service.Manager;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class PersonsDao {
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+@Component
+public class PersonsDao implements Dao<Person> {
 
-    private EntityManager entityManager;
+    @Autowired
+    private Manager manager;
 
-    @PostConstruct
-    public void init(){
-        this.entityManager = entityManagerFactory.createEntityManager();
-    }
-
+    @Override
     public List<Person> findAll(){
-        return entityManager.createQuery("select p from Person p", Person.class)
+        return manager.getEntityManager().createQuery("select p from Person p", Person.class)
                 .getResultList();
     }
+    @Override
+    public Optional<Person> findById(Long id){
+        return Optional.ofNullable(manager.getEntityManager().find(Person.class, id));
+    }
 
-    public Person findById(Long id){
-        return entityManager.find(Person.class, id);
+    @Override
+    public void saveOrUpdate(Person entity) {
+        if (entity.getId() == null)
+            manager.getEntityManager().persist(entity);
+        else
+            manager.getEntityManager().merge(entity);
+    }
+
+    @Override
+    public void remove(Long id) {
+        Person person = manager.getEntityManager().find(Person.class, id);
+        if (person != null){
+            manager.getEntityManager().remove(person);
+        }
     }
 
 }
