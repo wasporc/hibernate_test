@@ -3,33 +3,29 @@ package ru.hiber.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.hiber.entity.Person;
-import ru.hiber.entity.Product;
 import ru.hiber.service.Manager;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ProductDao implements Dao<Product>{
+public class PersonsDao implements Dao<Person> {
 
     @Autowired
     private Manager manager;
 
     @Override
-    public List<Product> findAll(){
-        return manager.getEntityManager()
-                .createQuery("select p from Product p", Product.class)
+    public List<Person> findAll(){
+        return manager.getEntityManager().createQuery("select p from Person p", Person.class)
                 .getResultList();
     }
-
     @Override
-    public Optional<Product> findById(Long id) {
-        return Optional.ofNullable(manager.getEntityManager()
-                .find(Product.class, id));
+    public Optional<Person> findById(Long id){
+        return Optional.ofNullable(manager.getEntityManager().find(Person.class, id));
     }
 
     @Override
-    public void saveOrUpdate(Product entity) {
+    public void saveOrUpdate(Person entity) {
         if (entity.getId() == null)
             manager.getEntityManager().persist(entity);
         else
@@ -38,10 +34,10 @@ public class ProductDao implements Dao<Product>{
 
     @Override
     public void remove(Long id) {
-        Person person = manager.getEntityManager()
-                .find(Person.class, id);
+        Person person = manager.getEntityManager().find(Person.class, id);
         if (person != null){
             manager.getEntityManager().remove(person);
         }
     }
+
 }
