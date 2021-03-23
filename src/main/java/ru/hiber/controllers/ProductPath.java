@@ -27,19 +27,17 @@ public class ProductPath {
     private ProductService service;
 
     @GetMapping(value = "/product/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Product> getById(@PathVariable Long id){
+    public ResponseEntity<String> getById(@PathVariable Long id){
         Optional<Product> productOptional = service.getById(id);
-
         if (productOptional.isPresent()){
             Product product = productOptional.get();
             logger.info("product : {}",product.toString());
-            logger.info("list size : {}",product.getPersonList().size());
-//            String json = gson.toJson(product);
-//            logger.info(json);
-            return ResponseEntity.ok(product);
+            return ResponseEntity.ok(gson.toJson(product));
         }
         else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("not found product with id %s", id));
         }
     }
 
