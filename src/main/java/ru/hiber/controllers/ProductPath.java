@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.hiber.entity.Product;
 import ru.hiber.service.ProductService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,7 +24,9 @@ public class ProductPath {
     @Autowired
     private ProductService service;
 
-    @GetMapping(value = "/product/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            value = "/products/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getById(@PathVariable Long id){
         Optional<Product> productOptional = service.getById(id);
         if (productOptional.isPresent()){
@@ -39,6 +39,40 @@ public class ProductPath {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(String.format("not found product with id %s", id));
         }
+    }
+
+    @GetMapping(
+            value = "/products",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getAll(){
+        List<Product> list = service.findAll();
+        return ResponseEntity.ok(gson.toJson(list));
+    }
+
+    //{"name":"orange","price":2.5}
+    @PostMapping(
+            value = "/products",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addProduct(@RequestBody Product product){
+        logger.info("post body product {}", product);
+        product = service.add(product);
+        return ResponseEntity.ok().body(gson.toJson(product));
+    }
+
+    @GetMapping(
+            value = "/products/delete/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        try {
+            service.remove(id);
+            logger.info(String.format("delete ok with id %s", id));
+            return ResponseEntity.ok().build();
+        }catch (RuntimeException e){
+            logger.info(String.format("delete bad request id %s", id));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
     }
 
 }

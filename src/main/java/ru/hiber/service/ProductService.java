@@ -22,12 +22,16 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void add(Product product){
-        productRepository.save(product);
+    public Product add(Product product){
+        return productRepository.save(product);
     }
 
-    public void remove(Long id){
-        productRepository.deleteById(id);
+    public void remove(Long id) throws RuntimeException{
+        try {
+            productRepository.deleteById(id);
+        }catch (Exception e){
+            throw new RuntimeException("can't delete");
+        }
     }
 
 }
