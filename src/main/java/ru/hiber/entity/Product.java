@@ -1,5 +1,7 @@
 package ru.hiber.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "persons_id")
     )
+    @JsonIgnore
     private List<Person> personList;
 
     public Product() {
