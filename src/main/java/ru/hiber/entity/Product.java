@@ -10,14 +10,6 @@ public class Product {
     private String name;
     private Double price;
 
-//    @OneToMany(cascade = CascadeType.REMOVE)
-//    @JoinTable(name = "persons_product",
-//            joinColumns = @JoinColumn(name = "product_id"),
-//            inverseJoinColumns = @JoinColumn(name = "persons_id")
-//    )
-//    @JsonIgnore
-//    private List<Person> personList;
-
     public Product() {
     }
 
@@ -35,14 +27,6 @@ public class Product {
     public void setPrice(Double price) {
         this.price = price;
     }
-
-//    public List<Person> getPersonList() {
-//        return personList;
-//    }
-//
-//    public void setPersonList(List<Person> personList) {
-//        this.personList = personList;
-//    }
 
     public void setId(Long id) {
         this.id = id;
