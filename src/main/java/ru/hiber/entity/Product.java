@@ -44,6 +44,9 @@ public class Product {
         return name;
     }
 
+    public Double getPrice() {
+        return price;
+    }
 
     @Override
     public String toString() {
