@@ -60,10 +60,10 @@ public class ProductPath {
         return ResponseEntity.ok().body(gson.toJson(product));
     }
 
-    @GetMapping(
-            value = "/products/delete/{id}",
+    @DeleteMapping(
+            value = "/products",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<String> delete(@RequestParam Long id){
         try {
             service.remove(id);
             logger.info(String.format("delete ok with id %s", id));
@@ -72,7 +72,15 @@ public class ProductPath {
             logger.info(String.format("delete bad request id %s", id));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    }
 
+    @PutMapping(
+            value = "/products",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> update(@RequestBody Product product){
+        logger.info("put body product {}", product);
+        product = service.add(product);
+        return ResponseEntity.ok().body(gson.toJson(product));
     }
 
 }
