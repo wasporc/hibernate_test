@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.hiber.entity.Product;
 import ru.hiber.service.ProductService;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
 @Controller
+@ApiIgnore
 public class ProductModelController {
 
     @Autowired

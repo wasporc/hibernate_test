@@ -2,6 +2,8 @@ package ru.hiber.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import ru.hiber.service.ProductService;
 import java.util.List;
 import java.util.Optional;
 
+@Api(
+        value = "/app",
+        description = "gets some product from a rest  ")
 @RestController
 @RequestMapping("/app")
 public class ProductPath {
@@ -24,6 +29,7 @@ public class ProductPath {
     @Autowired
     private ProductService service;
 
+    @ApiOperation("Получить продукт по id")
     @GetMapping(
             value = "/products/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +47,7 @@ public class ProductPath {
         }
     }
 
+    @ApiOperation("Получить список продуктов")
     @GetMapping(
             value = "/products",
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,6 +57,7 @@ public class ProductPath {
     }
 
     //{"name":"orange","price":2.5}
+    @ApiOperation(value = "Сохранить продукт")
     @PostMapping(
             value = "/products",
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -60,6 +68,7 @@ public class ProductPath {
         return ResponseEntity.ok().body(gson.toJson(product));
     }
 
+    @ApiOperation(value = "Удалить продукт")
     @DeleteMapping(
             value = "/products",
             produces = MediaType.APPLICATION_JSON_VALUE)
