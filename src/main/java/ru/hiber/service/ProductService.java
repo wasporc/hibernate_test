@@ -2,6 +2,7 @@ package ru.hiber.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.hiber.dto.ProductsCreationDto;
 import ru.hiber.entity.Product;
 import ru.hiber.repo.ProductRepository;
 
@@ -32,6 +33,10 @@ public class ProductService {
         }catch (Exception e){
             throw new RuntimeException("can't delete");
         }
+    }
+
+    public void saveAll(ProductsCreationDto productsCreationDto){
+        productsCreationDto.getProducts().forEach(this::add);
     }
 
 }
