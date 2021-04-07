@@ -11,6 +11,8 @@ public class Person {
     private String last_name;
     private String login;
     private String password;
+    @Column(insertable = false, updatable = false)
+    private Long role_id;
     @ManyToOne
     private Role role;
 
@@ -20,6 +22,14 @@ public class Person {
     }
 
     public Person() {
+    }
+
+    public Long getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(Long role_id) {
+        this.role_id = role_id;
     }
 
     public String getLogin() {

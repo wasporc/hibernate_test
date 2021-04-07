@@ -12,9 +12,9 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <a class="btn btn-info" href="#" th:href="@{/products/all}"> Назад к списку товаров </a>
+            <a class="btn btn-info" href="#" th:href="@{/persons/all}"> Назад к списку товаров </a>
             <form action="#" class="form-horizontal"
-                  th:action="@{/products/save}"
+                  th:action="@{/persons/save}"
                   th:object="${form}"
                   method="post">
                 <fieldset>
@@ -25,14 +25,20 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th> Название</th>
-                            <th> Цена</th>
+                            <th> Имя </th>
+                            <th> Фамилия </th>
+                            <th> Логин </th>
+                            <th> Пароль </th>
+                            <th> Роль(id) </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="product, itemStat : *{products}">
-                            <td><input th:placeholder="Название" th:field="*{products[__${itemStat.index}__].name}" required/></td>
-                            <td><input th:placeholder="Цена" th:field="*{products[__${itemStat.index}__].price}" required/></td>
+                        <tr th:each="person, itemStat : *{persons}">
+                            <td><input th:placeholder="Имя" th:field="*{persons[__${itemStat.index}__].first_name}" required/></td>
+                            <td><input th:placeholder="Фамилия" th:field="*{persons[__${itemStat.index}__].last_name}" required/></td>
+                            <td><input th:placeholder="Логин" th:field="*{persons[__${itemStat.index}__].login}" required/></td>
+                            <td><input th:placeholder="Пароль" th:field="*{persons[__${itemStat.index}__].password}" required/></td>
+                            <td><input th:placeholder="Роль" th:field="*{persons[__${itemStat.index}__].role_id}" required/></td>
                         </tr>
                         </tbody>
                     </table>

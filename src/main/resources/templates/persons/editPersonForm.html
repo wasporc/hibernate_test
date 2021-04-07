@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать пользователя</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1> Редактировать пользователя </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-info" href="#" th:href="@{/persons/all}"> Назад к списку товаров </a>
+            <form action="#" class="form-horizontal"
+                  th:action="@{/persons/save}"
+                  th:object="${form}"
+                  method="post">
+                <fieldset>
+					<span class="pull-right">
+						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Сохранить">
+						    <input type="reset" id="resetButton" class="btn btn-danger" th:value="Сбросить"/>
+					</span>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th> Имя </th>
+                            <th> Фамилия </th>
+                            <th> Логин </th>
+                            <th> Пароль </th>
+                            <th> Роль(id) </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="person, itemStat : ${form.persons}">
+                            <td><input hidden th:name="|persons[${itemStat.index}].id|" th:value="${person.getId()}"/></td>
+                            <td><input th:placeholder="Имя" th:name="|persons[${itemStat.index}].first_name|" th:value="${person.getFirst_name()}"
+                                       required/></td>
+                            <td><input th:placeholder="Фамилия" th:name="|persons[${itemStat.index}].last_name|"
+                                       th:value="${person.getLast_name()}" required/></td>
+                            <td><input th:placeholder="Логин" th:name="|persons[${itemStat.index}].login|"
+                                       th:value="${person.getLogin()}" required/></td>
+                            <td><input th:placeholder="Пароль" th:name="|persons[${itemStat.index}].password|"
+                                       th:value="${person.getPassword()}" required/></td>
+                            <td><input th:placeholder="Роль" th:name="|persons[${itemStat.index}].role_id|"
+                                       th:value="${person.getRole_id()}" required/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
