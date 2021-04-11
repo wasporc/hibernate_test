@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать корзину</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1> Редактировать корзину </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-info" href="#" th:href="@{/}"> Назад к списку товаров </a>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th> Номер</th>
+                    <th> Название</th>
+                    <th> Цена</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${form.products.empty}">
+                    <td colspan="2"> Нет товаров</td>
+                </tr>
+                <tr th:each="product, itemStat : ${form.products}">
+                    <td><span th:text="${product.id}"> Номер </span></td>
+                    <td><span th:text="${product.name}"> Название </span></td>
+                    <td><span th:text="${product.price}"> Цена </span></td>
+                    <td><a class="btn btn-primary" href="#" th:href="@{/basket/delete/{id}(id=${product.id})}"> Удалить из корзины </a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

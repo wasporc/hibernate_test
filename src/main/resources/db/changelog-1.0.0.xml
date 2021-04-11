@@ -1,0 +1,95 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="wasp" id="1618078766047-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="persons"/>
+            </not>
+        </preConditions>
+        <createTable tableName="persons">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="persons_pkey"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="login" type="VARCHAR(64)"/>
+            <column name="password" type="VARCHAR(64)"/>
+            <column name="role_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wasp" id="1618078766047-2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="role_id_key"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="persons" constraintName="role_id_key" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="role" validate="true"/>
+    </changeSet>
+    <changeSet author="wasp" id="1618079156425-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="persons_product"/>
+            </not>
+        </preConditions>
+        <createTable tableName="persons_product">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="persons_product_pkey"/>
+            </column>
+            <column name="persons_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wasp" id="1618079156425-2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="person_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="persons_id" baseTableName="persons_product" constraintName="person_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="persons" validate="true"/>
+    </changeSet>
+    <changeSet author="wasp" id="1618079156425-3">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="product_fk"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="persons_product" constraintName="product_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
+    <changeSet author="wasp" id="1618079191528-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="product"/>
+            </not>
+        </preConditions>
+        <createTable tableName="product">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="product_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="price" type="FLOAT8"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wasp" id="role_add">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sqlCheck expectedResult="ROLE_ADMIN">
+                    SELECT name FROM public.role WHERE name = 'ROLE_ADMIN'
+                </sqlCheck>
+                <sqlCheck expectedResult="ROLE_USER">
+                    SELECT name FROM public.role WHERE name = 'ROLE_USER'
+                </sqlCheck>
+                <sqlCheck expectedResult="ROLE_MANAGER">
+                    SELECT name FROM public.role WHERE name = 'ROLE_MANAGER'
+                </sqlCheck>
+            </not>
+        </preConditions>
+        <sql>
+            INSERT INTO public.role (id, name) VALUES (1, 'ROLE_ADMIN');
+            INSERT INTO public.role (id, name) VALUES (2, 'ROLE_USER');
+            INSERT INTO public.role (id, name) VALUES (3, 'ROLE_MANAGER');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
