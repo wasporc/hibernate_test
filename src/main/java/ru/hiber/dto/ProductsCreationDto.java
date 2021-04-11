@@ -1,14 +1,12 @@
 package ru.hiber.dto;
 
-import ru.hiber.entity.Product;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsCreationDto {
-    private List<Product> products;
+    private List<ProductDto> products;
 
-    public ProductsCreationDto(List<Product> products) {
+    public ProductsCreationDto(List<ProductDto> products) {
         this.products = products;
     }
 
@@ -16,15 +14,15 @@ public class ProductsCreationDto {
         this(new ArrayList<>());
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(ProductDto product) {
         this.products.add(product);
     }
 
-    public List<Product> getProducts() {
+    public List<ProductDto> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ProductDto> products) {
         this.products = products;
     }
 }

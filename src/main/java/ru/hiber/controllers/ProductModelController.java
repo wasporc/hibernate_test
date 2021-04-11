@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.hiber.dto.ProductDto;
+import ru.hiber.dto.ProductMapping;
 import ru.hiber.dto.ProductsCreationDto;
 import ru.hiber.entity.Product;
 import ru.hiber.service.ProductService;
@@ -35,7 +37,7 @@ public class ProductModelController {
     public String showCreateForm(Model model) {
         ProductsCreationDto productForm = new ProductsCreationDto();
         //for (int i = 1; i <= 3; i++) {
-            productForm.addProduct(new Product());
+            productForm.addProduct(new ProductDto());
        // }
         model.addAttribute("form", productForm);
         return "products/createProductForm";
@@ -50,8 +52,8 @@ public class ProductModelController {
 
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable Long id, Model model){
-        List<Product> list = new ArrayList<>();
-        list.add(productService.getById(id).orElse(new Product()));
+        List<ProductDto> list = new ArrayList<>();
+        list.add(ProductMapping.MAPPER.fromProduct(productService.getById(id).orElse(new Product())));
         model.addAttribute("form", new ProductsCreationDto(list));
         return "products/editProductForm";
     }
