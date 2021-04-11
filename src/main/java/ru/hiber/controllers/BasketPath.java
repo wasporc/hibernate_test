@@ -35,11 +35,6 @@ public class BasketPath {
     @Autowired
     private PersonRepository personRepository;
 
-//    @GetMapping("/get/{id}")
-//    public List<ProductDto> getPersonBasket(@PathVariable Long id){
-//        return basket.getList(id);
-//    }
-
     @GetMapping("/add/{id}")
     public String addProduct(@PathVariable Long id, Model model){
         Optional<Product> byId = service.getById(id);
@@ -74,9 +69,12 @@ public class BasketPath {
         return "basket/editBasketForm";
     }
 
-//    @DeleteMapping("/basket")
-//    public void removeFromBasket(@RequestBody Product product, @RequestHeader(name = "ID-USER") String user){
-//        Optional<Product> byId = service.getById(product.getId());
-//        byId.ifPresent(value -> basket.remove(ProductMapping.MAPPER.fromProduct(value), Long.valueOf(user)));
-//    }
+    @GetMapping("/delete/{id}")
+    public String removeFromBasket(@PathVariable Long id, Model model){
+        Optional<Product> byId = service.getById(id);
+        Optional<Person> byLogin = personRepository.findByLogin(facade.getAuthentication().getName());
+        byLogin.ifPresent(person -> byId.ifPresent(value ->
+                basket.remove(ProductMapping.MAPPER.fromProduct(value), person.getId())));
+        return "redirect:/basket/edit";
+    }
 }

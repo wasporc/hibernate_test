@@ -72,4 +72,24 @@
             <column name="price" type="FLOAT8"/>
         </createTable>
     </changeSet>
+    <changeSet author="wasp" id="role_add">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sqlCheck expectedResult="ROLE_ADMIN">
+                    SELECT name FROM public.role WHERE name = 'ROLE_ADMIN'
+                </sqlCheck>
+                <sqlCheck expectedResult="ROLE_USER">
+                    SELECT name FROM public.role WHERE name = 'ROLE_USER'
+                </sqlCheck>
+                <sqlCheck expectedResult="ROLE_MANAGER">
+                    SELECT name FROM public.role WHERE name = 'ROLE_MANAGER'
+                </sqlCheck>
+            </not>
+        </preConditions>
+        <sql>
+            INSERT INTO public.role (id, name) VALUES (1, 'ROLE_ADMIN');
+            INSERT INTO public.role (id, name) VALUES (2, 'ROLE_USER');
+            INSERT INTO public.role (id, name) VALUES (3, 'ROLE_MANAGER');
+        </sql>
+    </changeSet>
 </databaseChangeLog>

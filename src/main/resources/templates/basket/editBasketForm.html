@@ -13,35 +13,27 @@
     <div class="row">
         <div class="col-md-6">
             <a class="btn btn-info" href="#" th:href="@{/}"> Назад к списку товаров </a>
-            <form action="#" class="form-horizontal"
-                  th:action="@{/products/save}"
-                  th:object="${form}"
-                  method="post">
-                <fieldset>
-					<span class="pull-right">
-						    <input type="submit" id="submitButton" class="btn btn-success" th:value="Сохранить">
-						    <input type="reset" id="resetButton" class="btn btn-danger" th:value="Сбросить"/>
-					</span>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th> Название</th>
-                            <th> Цена</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="product, itemStat : ${form.products}">
-                            <td><input hidden th:name="|products[${itemStat.index}].id|" th:value="${product.getId()}"/></td>
-                            <td><input th:placeholder="Название" th:name="|products[${itemStat.index}].name|" th:value="${product.getName()}"
-                                       required/></td>
-                            <td><input th:placeholder="Цена" th:name="|products[${itemStat.index}].price|"
-                                       th:value="${product.getPrice()}" required/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </fieldset>
-            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th> Номер</th>
+                    <th> Название</th>
+                    <th> Цена</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${form.products.empty}">
+                    <td colspan="2"> Нет товаров</td>
+                </tr>
+                <tr th:each="product, itemStat : ${form.products}">
+                    <td><span th:text="${product.id}"> Номер </span></td>
+                    <td><span th:text="${product.name}"> Название </span></td>
+                    <td><span th:text="${product.price}"> Цена </span></td>
+                    <td><a class="btn btn-primary" href="#" th:href="@{/basket/delete/{id}(id=${product.id})}"> Удалить из корзины </a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
